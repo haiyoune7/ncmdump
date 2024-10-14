@@ -1,10 +1,10 @@
 use std::collections::HashSet;
 use std::path::PathBuf;
 
+use crate::errors::Error;
 use anyhow::Result;
 use clap::Parser;
 use glob::glob;
-use crate::errors::Error;
 
 #[derive(Clone, Debug, Default, Parser)]
 #[command(name = "ncmdump", bin_name = "ncmdump", about, version)]
@@ -49,6 +49,7 @@ impl Command {
             let path = PathBuf::from(matcher);
             if path.exists() {
                 paths.insert(path);
+                continue;
             }
             let glob_result = glob(matcher);
             if glob_result.is_err() {
